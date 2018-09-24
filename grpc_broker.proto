@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package goalgo;
+
+// The robot control service definition.
+service RobotCtl {
+  // 写入日志
+  rpc Log (LogRequest) returns (LogReply) {}
+}
+
+message LogRequest {
+  int32 sid = 1;
+  uint64 id = 2;
+  int64 time = 3;
+  int32 level = 4;
+  string message = 5;
+}
+
+message LogReply {
+  bool success = 1;
+  string message = 2;
+}
