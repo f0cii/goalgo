@@ -4,8 +4,27 @@ package goalgo;
 
 // The robot control service definition.
 service RobotCtl {
+  // 获取交易所配置
+  rpc GetRobotExchangeInfo (RobotExchangeInfoRequest) returns (RobotExchangeInfoReply) {}
+
   // 写入日志
   rpc Log (LogRequest) returns (LogReply) {}
+}
+
+message RobotExchangeInfoRequest {
+  string uid = 1;
+  string robot_id = 2;
+}
+
+message RobotExchangeInfo {
+  string label = 1;
+  string name = 2;
+  string access_key = 3;
+  string secret_key = 4;
+}
+
+message RobotExchangeInfoReply {
+  repeated RobotExchangeInfo exchanges = 1;
 }
 
 message LogRequest {

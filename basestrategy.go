@@ -58,11 +58,32 @@ func (s *BaseStrategy) run() {
 		s.state = RStateStopped
 		return
 	}
-	s.state = RStateRunning
+
 	strategy.Init()
-	strategy.Setup(nil)
 	s.state = RStateInitialized
+
+	client := GetClient()
+	exchanges, err := client.GetRobotExchangeInfo("", id)
+	if err != nil {
+		log.Printf("GetRobotExchangeInfo error: %v", err)
+	} else {
+		params := []ExchangeParams{}
+		for _, ex := range exchanges {
+			params = append(params, ExchangeParams{
+				Label:     ex.Label,
+				Name:      ex.Name,
+				AccessKey: ex.AccessKey,
+				SecretKey: ex.SecretKey,
+			})
+		}
+		log.Printf("Setup...")
+		strategy.Setup(params)
+		log.Printf("Setup.")
+	}
+
+	s.state = RStateRunning
 	strategy.Run()
+
 	log.Printf("Run done")
 	s.state = RStateStopped
 }

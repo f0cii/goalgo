@@ -25,6 +25,155 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
+type RobotExchangeInfoRequest struct {
+	Uid                  string   `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	RobotId              string   `protobuf:"bytes,2,opt,name=robot_id,json=robotId,proto3" json:"robot_id,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *RobotExchangeInfoRequest) Reset()         { *m = RobotExchangeInfoRequest{} }
+func (m *RobotExchangeInfoRequest) String() string { return proto.CompactTextString(m) }
+func (*RobotExchangeInfoRequest) ProtoMessage()    {}
+func (*RobotExchangeInfoRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_802e9beed3ec3b28, []int{0}
+}
+
+func (m *RobotExchangeInfoRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RobotExchangeInfoRequest.Unmarshal(m, b)
+}
+func (m *RobotExchangeInfoRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RobotExchangeInfoRequest.Marshal(b, m, deterministic)
+}
+func (m *RobotExchangeInfoRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RobotExchangeInfoRequest.Merge(m, src)
+}
+func (m *RobotExchangeInfoRequest) XXX_Size() int {
+	return xxx_messageInfo_RobotExchangeInfoRequest.Size(m)
+}
+func (m *RobotExchangeInfoRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_RobotExchangeInfoRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RobotExchangeInfoRequest proto.InternalMessageInfo
+
+func (m *RobotExchangeInfoRequest) GetUid() string {
+	if m != nil {
+		return m.Uid
+	}
+	return ""
+}
+
+func (m *RobotExchangeInfoRequest) GetRobotId() string {
+	if m != nil {
+		return m.RobotId
+	}
+	return ""
+}
+
+type RobotExchangeInfo struct {
+	Label                string   `protobuf:"bytes,1,opt,name=label,proto3" json:"label,omitempty"`
+	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	AccessKey            string   `protobuf:"bytes,3,opt,name=access_key,json=accessKey,proto3" json:"access_key,omitempty"`
+	SecretKey            string   `protobuf:"bytes,4,opt,name=secret_key,json=secretKey,proto3" json:"secret_key,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *RobotExchangeInfo) Reset()         { *m = RobotExchangeInfo{} }
+func (m *RobotExchangeInfo) String() string { return proto.CompactTextString(m) }
+func (*RobotExchangeInfo) ProtoMessage()    {}
+func (*RobotExchangeInfo) Descriptor() ([]byte, []int) {
+	return fileDescriptor_802e9beed3ec3b28, []int{1}
+}
+
+func (m *RobotExchangeInfo) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RobotExchangeInfo.Unmarshal(m, b)
+}
+func (m *RobotExchangeInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RobotExchangeInfo.Marshal(b, m, deterministic)
+}
+func (m *RobotExchangeInfo) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RobotExchangeInfo.Merge(m, src)
+}
+func (m *RobotExchangeInfo) XXX_Size() int {
+	return xxx_messageInfo_RobotExchangeInfo.Size(m)
+}
+func (m *RobotExchangeInfo) XXX_DiscardUnknown() {
+	xxx_messageInfo_RobotExchangeInfo.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RobotExchangeInfo proto.InternalMessageInfo
+
+func (m *RobotExchangeInfo) GetLabel() string {
+	if m != nil {
+		return m.Label
+	}
+	return ""
+}
+
+func (m *RobotExchangeInfo) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *RobotExchangeInfo) GetAccessKey() string {
+	if m != nil {
+		return m.AccessKey
+	}
+	return ""
+}
+
+func (m *RobotExchangeInfo) GetSecretKey() string {
+	if m != nil {
+		return m.SecretKey
+	}
+	return ""
+}
+
+type RobotExchangeInfoReply struct {
+	Exchanges            []*RobotExchangeInfo `protobuf:"bytes,1,rep,name=exchanges,proto3" json:"exchanges,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
+	XXX_unrecognized     []byte               `json:"-"`
+	XXX_sizecache        int32                `json:"-"`
+}
+
+func (m *RobotExchangeInfoReply) Reset()         { *m = RobotExchangeInfoReply{} }
+func (m *RobotExchangeInfoReply) String() string { return proto.CompactTextString(m) }
+func (*RobotExchangeInfoReply) ProtoMessage()    {}
+func (*RobotExchangeInfoReply) Descriptor() ([]byte, []int) {
+	return fileDescriptor_802e9beed3ec3b28, []int{2}
+}
+
+func (m *RobotExchangeInfoReply) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RobotExchangeInfoReply.Unmarshal(m, b)
+}
+func (m *RobotExchangeInfoReply) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RobotExchangeInfoReply.Marshal(b, m, deterministic)
+}
+func (m *RobotExchangeInfoReply) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RobotExchangeInfoReply.Merge(m, src)
+}
+func (m *RobotExchangeInfoReply) XXX_Size() int {
+	return xxx_messageInfo_RobotExchangeInfoReply.Size(m)
+}
+func (m *RobotExchangeInfoReply) XXX_DiscardUnknown() {
+	xxx_messageInfo_RobotExchangeInfoReply.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RobotExchangeInfoReply proto.InternalMessageInfo
+
+func (m *RobotExchangeInfoReply) GetExchanges() []*RobotExchangeInfo {
+	if m != nil {
+		return m.Exchanges
+	}
+	return nil
+}
+
 type LogRequest struct {
 	Sid                  int32    `protobuf:"varint,1,opt,name=sid,proto3" json:"sid,omitempty"`
 	Id                   uint64   `protobuf:"varint,2,opt,name=id,proto3" json:"id,omitempty"`
@@ -40,7 +189,7 @@ func (m *LogRequest) Reset()         { *m = LogRequest{} }
 func (m *LogRequest) String() string { return proto.CompactTextString(m) }
 func (*LogRequest) ProtoMessage()    {}
 func (*LogRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_802e9beed3ec3b28, []int{0}
+	return fileDescriptor_802e9beed3ec3b28, []int{3}
 }
 
 func (m *LogRequest) XXX_Unmarshal(b []byte) error {
@@ -108,7 +257,7 @@ func (m *LogReply) Reset()         { *m = LogReply{} }
 func (m *LogReply) String() string { return proto.CompactTextString(m) }
 func (*LogReply) ProtoMessage()    {}
 func (*LogReply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_802e9beed3ec3b28, []int{1}
+	return fileDescriptor_802e9beed3ec3b28, []int{4}
 }
 
 func (m *LogReply) XXX_Unmarshal(b []byte) error {
@@ -144,6 +293,9 @@ func (m *LogReply) GetMessage() string {
 }
 
 func init() {
+	proto.RegisterType((*RobotExchangeInfoRequest)(nil), "goalgo.RobotExchangeInfoRequest")
+	proto.RegisterType((*RobotExchangeInfo)(nil), "goalgo.RobotExchangeInfo")
+	proto.RegisterType((*RobotExchangeInfoReply)(nil), "goalgo.RobotExchangeInfoReply")
 	proto.RegisterType((*LogRequest)(nil), "goalgo.LogRequest")
 	proto.RegisterType((*LogReply)(nil), "goalgo.LogReply")
 }
@@ -160,6 +312,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type RobotCtlClient interface {
+	// 获取交易所配置
+	GetRobotExchangeInfo(ctx context.Context, in *RobotExchangeInfoRequest, opts ...grpc.CallOption) (*RobotExchangeInfoReply, error)
 	// 写入日志
 	Log(ctx context.Context, in *LogRequest, opts ...grpc.CallOption) (*LogReply, error)
 }
@@ -170,6 +324,15 @@ type robotCtlClient struct {
 
 func NewRobotCtlClient(cc *grpc.ClientConn) RobotCtlClient {
 	return &robotCtlClient{cc}
+}
+
+func (c *robotCtlClient) GetRobotExchangeInfo(ctx context.Context, in *RobotExchangeInfoRequest, opts ...grpc.CallOption) (*RobotExchangeInfoReply, error) {
+	out := new(RobotExchangeInfoReply)
+	err := c.cc.Invoke(ctx, "/goalgo.RobotCtl/GetRobotExchangeInfo", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *robotCtlClient) Log(ctx context.Context, in *LogRequest, opts ...grpc.CallOption) (*LogReply, error) {
@@ -183,12 +346,32 @@ func (c *robotCtlClient) Log(ctx context.Context, in *LogRequest, opts ...grpc.C
 
 // RobotCtlServer is the server API for RobotCtl service.
 type RobotCtlServer interface {
+	// 获取交易所配置
+	GetRobotExchangeInfo(context.Context, *RobotExchangeInfoRequest) (*RobotExchangeInfoReply, error)
 	// 写入日志
 	Log(context.Context, *LogRequest) (*LogReply, error)
 }
 
 func RegisterRobotCtlServer(s *grpc.Server, srv RobotCtlServer) {
 	s.RegisterService(&_RobotCtl_serviceDesc, srv)
+}
+
+func _RobotCtl_GetRobotExchangeInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RobotExchangeInfoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RobotCtlServer).GetRobotExchangeInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/goalgo.RobotCtl/GetRobotExchangeInfo",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RobotCtlServer).GetRobotExchangeInfo(ctx, req.(*RobotExchangeInfoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _RobotCtl_Log_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -214,6 +397,10 @@ var _RobotCtl_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*RobotCtlServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "GetRobotExchangeInfo",
+			Handler:    _RobotCtl_GetRobotExchangeInfo_Handler,
+		},
+		{
 			MethodName: "Log",
 			Handler:    _RobotCtl_Log_Handler,
 		},
@@ -225,19 +412,27 @@ var _RobotCtl_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("grpc_broker.proto", fileDescriptor_802e9beed3ec3b28) }
 
 var fileDescriptor_802e9beed3ec3b28 = []byte{
-	// 211 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x54, 0x8f, 0x31, 0x4f, 0xc3, 0x30,
-	0x10, 0x85, 0x71, 0x9c, 0x94, 0x70, 0x03, 0x2a, 0x27, 0x06, 0x8b, 0xc9, 0xca, 0xe4, 0x85, 0x0c,
-	0x30, 0xb1, 0xb0, 0xb0, 0x76, 0xf2, 0x1f, 0x40, 0x4d, 0x72, 0xb2, 0x2c, 0x5c, 0x9d, 0xb1, 0x5d,
-	0xa4, 0xfe, 0x7b, 0x54, 0x57, 0x15, 0x64, 0x7b, 0xef, 0x74, 0x9f, 0x9e, 0x3e, 0x78, 0x70, 0x29,
-	0xce, 0x9f, 0x53, 0xe2, 0x2f, 0x4a, 0x63, 0x4c, 0x5c, 0x18, 0x37, 0x8e, 0xf7, 0xc1, 0xf1, 0x90,
-	0x00, 0x76, 0xec, 0x2c, 0x7d, 0x1f, 0x29, 0x17, 0xdc, 0x82, 0xcc, 0x7e, 0x51, 0x42, 0x0b, 0xd3,
-	0xd9, 0x73, 0xc4, 0x7b, 0x68, 0xfc, 0xa2, 0x1a, 0x2d, 0x4c, 0x6b, 0x1b, 0xbf, 0x20, 0x42, 0x5b,
-	0xfc, 0x81, 0x94, 0xd4, 0xc2, 0x48, 0x5b, 0x33, 0x3e, 0x42, 0x17, 0xe8, 0x87, 0x82, 0x6a, 0x2b,
-	0x77, 0x29, 0xa8, 0xe0, 0xf6, 0x40, 0x39, 0xef, 0x1d, 0xa9, 0x4e, 0x0b, 0x73, 0x67, 0xaf, 0x75,
-	0x78, 0x87, 0xbe, 0x6e, 0xc6, 0x70, 0x3a, 0x7f, 0xe5, 0xe3, 0x3c, 0x53, 0xce, 0x75, 0xb5, 0xb7,
-	0xd7, 0xfa, 0x9f, 0x6f, 0x56, 0xfc, 0xcb, 0x1b, 0xf4, 0x96, 0x27, 0x2e, 0x1f, 0x25, 0xe0, 0x33,
-	0xc8, 0x1d, 0x3b, 0xc4, 0xf1, 0xe2, 0x33, 0xfe, 0xc9, 0x3c, 0x6d, 0x57, 0xb7, 0x18, 0x4e, 0xc3,
-	0xcd, 0xb4, 0xa9, 0xf6, 0xaf, 0xbf, 0x01, 0x00, 0x00, 0xff, 0xff, 0xbc, 0xb3, 0x37, 0x60, 0x12,
-	0x01, 0x00, 0x00,
+	// 352 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x52, 0x3d, 0x6f, 0xe2, 0x40,
+	0x10, 0x3d, 0xdb, 0x18, 0xcc, 0x9c, 0x74, 0x82, 0x11, 0x3a, 0x2d, 0x48, 0x77, 0x42, 0xae, 0x68,
+	0x42, 0x41, 0x8a, 0x74, 0x69, 0xa2, 0x08, 0x21, 0x68, 0xb2, 0x65, 0x1a, 0xe4, 0x8f, 0x89, 0x63,
+	0x61, 0x58, 0xc7, 0x6b, 0xa2, 0x58, 0xf9, 0x1d, 0xf9, 0xbf, 0x91, 0x67, 0x8d, 0x00, 0x91, 0xa4,
+	0x9b, 0xf7, 0xe6, 0xcd, 0xec, 0xbc, 0x67, 0x43, 0x3f, 0x29, 0xf2, 0x68, 0x1d, 0x16, 0x6a, 0x43,
+	0xc5, 0x34, 0x2f, 0x54, 0xa9, 0xb0, 0x9d, 0xa8, 0x20, 0x4b, 0x94, 0x3f, 0x07, 0x21, 0x55, 0xa8,
+	0xca, 0xfb, 0xb7, 0xe8, 0x39, 0xd8, 0x25, 0xb4, 0xd8, 0x3d, 0x29, 0x49, 0x2f, 0x7b, 0xd2, 0x25,
+	0xf6, 0xc0, 0xd9, 0xa7, 0xb1, 0xb0, 0xc6, 0xd6, 0xa4, 0x2b, 0xeb, 0x12, 0x87, 0xe0, 0x15, 0xb5,
+	0x7a, 0x9d, 0xc6, 0xc2, 0x66, 0xba, 0xc3, 0x78, 0x11, 0xfb, 0xef, 0xd0, 0xbf, 0x58, 0x84, 0x03,
+	0x70, 0xb3, 0x20, 0xa4, 0xac, 0xd9, 0x61, 0x00, 0x22, 0xb4, 0x76, 0xc1, 0x96, 0x9a, 0x0d, 0x5c,
+	0xe3, 0x3f, 0x80, 0x20, 0x8a, 0x48, 0xeb, 0xf5, 0x86, 0x2a, 0xe1, 0x70, 0xa7, 0x6b, 0x98, 0x25,
+	0x55, 0x75, 0x5b, 0x53, 0x54, 0x50, 0xc9, 0xed, 0x96, 0x69, 0x1b, 0x66, 0x49, 0x95, 0xff, 0x00,
+	0x7f, 0xbf, 0x70, 0x91, 0x67, 0x15, 0xde, 0x40, 0x97, 0x1a, 0x52, 0x0b, 0x6b, 0xec, 0x4c, 0x7e,
+	0xcf, 0x86, 0x53, 0xe3, 0x7d, 0x7a, 0x39, 0x72, 0xd4, 0xfa, 0x05, 0xc0, 0x4a, 0x25, 0x27, 0x51,
+	0xe8, 0x26, 0x0a, 0x57, 0xd6, 0x25, 0xfe, 0x01, 0xbb, 0x09, 0xa1, 0x25, 0xed, 0x34, 0xae, 0x4d,
+	0x95, 0xe9, 0x96, 0xf8, 0x74, 0x47, 0x72, 0xcd, 0xf6, 0xe9, 0x95, 0x32, 0x3e, 0xd8, 0x95, 0x06,
+	0xa0, 0x80, 0xce, 0x96, 0xb4, 0x0e, 0x12, 0x12, 0xae, 0xc9, 0xb0, 0x81, 0xfe, 0x2d, 0x78, 0xfc,
+	0x66, 0x7d, 0xb8, 0x80, 0x8e, 0xde, 0xb3, 0x7f, 0x7e, 0xd5, 0x93, 0x07, 0x78, 0x3a, 0x6f, 0x9f,
+	0xcd, 0xcf, 0x3e, 0x2c, 0xf0, 0xd8, 0xd4, 0x5d, 0x99, 0xe1, 0x23, 0x0c, 0xe6, 0x54, 0x5e, 0x7e,
+	0x93, 0xf1, 0xf7, 0xf6, 0x8d, 0xd9, 0xd1, 0xff, 0x1f, 0x14, 0x79, 0x56, 0xf9, 0xbf, 0xf0, 0x0a,
+	0x9c, 0x95, 0x4a, 0x10, 0x0f, 0xc2, 0x63, 0x52, 0xa3, 0xde, 0x19, 0xc7, 0xf2, 0xb0, 0xcd, 0xff,
+	0xdc, 0xf5, 0x67, 0x00, 0x00, 0x00, 0xff, 0xff, 0x82, 0x01, 0xfb, 0x3e, 0x88, 0x02, 0x00, 0x00,
 }

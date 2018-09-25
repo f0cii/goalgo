@@ -39,6 +39,7 @@ type GoExStrategy struct {
 }
 
 func (s *GoExStrategy) Setup(params []goalgo.ExchangeParams) error {
+	log.Printf("GoExStrategy Setup")
 	s.Exchanges = []goex.API{}
 	for _, p := range params {
 		log.Print(p)
@@ -52,7 +53,7 @@ func (s *GoExStrategy) Setup(params []goalgo.ExchangeParams) error {
 
 func (s *GoExStrategy) createExchange(params goalgo.ExchangeParams) goex.API {
 	b := builder.NewAPIBuilder()
-	exName, ok := goExExchangeNameMap[params.Exchange]
+	exName, ok := goExExchangeNameMap[params.Name]
 	if !ok {
 		return nil
 	}

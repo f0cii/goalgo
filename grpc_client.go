@@ -28,6 +28,21 @@ func (c Client) Close() {
 	c.conn.Close()
 }
 
+func (c *Client) GetRobotExchangeInfo(uid string, id string) ([]*RobotExchangeInfo, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
+	defer cancel()
+	request := &RobotExchangeInfoRequest{
+		Uid:     uid,
+		RobotId: id,
+	}
+	r, err := c.client.GetRobotExchangeInfo(ctx, request)
+	if err != nil {
+		log.Printf("Log: %v", err)
+		return nil, err
+	}
+	return r.GetExchanges(), nil
+}
+
 func (c *Client) Log(sid int, id uint64, tm int64, level int32, message string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
 	defer cancel()

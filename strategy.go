@@ -2,7 +2,8 @@ package goalgo
 
 // ExchangeParams 初始化交易所所需参数
 type ExchangeParams struct {
-	Exchange  string
+	Label     string
+	Name      string
 	AccessKey string
 	SecretKey string
 }
