@@ -7,6 +7,7 @@ http://39.104.22.80:8000
 
 示例策略脚本:
 
+```go
 package main
 
 import (
@@ -42,3 +43,4 @@ func main() {
 	s := &DemoStrategy{}
 	goalgo.Serve(s)
 }
+```
