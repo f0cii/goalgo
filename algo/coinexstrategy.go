@@ -21,7 +21,6 @@ func (s *CoinEXStrategy) Setup(params []goalgo.ExchangeParams) error {
 		switch p.Name {
 		case "bitmex":
 			ex = bitmex.NewBitmex(p.AccessKey, p.SecretKey)
-
 		case "bitmex_test":
 			ex = bitmex.NewBitmexTest(p.AccessKey, p.SecretKey)
 		default:
