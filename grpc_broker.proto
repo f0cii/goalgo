@@ -9,6 +9,9 @@ service RobotCtl {
 
   // 写入日志
   rpc Log (LogRequest) returns (LogReply) {}
+
+  // 更新状态
+  rpc UpdateStatus (UpdateStatusRequest) returns (UpdateStatusReply) {}
 }
 
 message RobotExchangeInfoRequest {
@@ -36,6 +39,16 @@ message LogRequest {
 }
 
 message LogReply {
+  bool success = 1;
+  string message = 2;
+}
+
+message UpdateStatusRequest {
+  string robot_id = 1;
+  int32 status = 2;
+}
+
+message UpdateStatusReply {
   bool success = 1;
   string message = 2;
 }

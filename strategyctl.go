@@ -24,7 +24,7 @@ var PluginMap = map[string]plugin.Plugin{
 // StrategyCtl 插件接口
 type StrategyCtl interface {
 	//GetOptions() (ret map[string]*OptionInfo)
-	GetState() RobotState
+	GetState() RobotStatus
 	//Setup(options SetupOptions) string
 	//SetupOptions(options string) string
 	Start() plugin.BasicError
@@ -36,13 +36,13 @@ type StrategyCtl interface {
 type StrategyRPC struct{ client *rpc.Client }
 
 // GetState ...
-func (g *StrategyRPC) GetState() RobotState {
-	var resp RobotState
+func (g *StrategyRPC) GetState() RobotStatus {
+	var resp RobotStatus
 	err := g.client.Call("Plugin.GetState", new(interface{}), &resp)
 	if err != nil {
 		// You usually want your interfaces to return errors. If they don't,
 		// there isn't much other choice here.
-		return RStateOff
+		return RobotStatusDisabled
 	}
 
 	return resp
@@ -97,7 +97,7 @@ type StrategyRPCServer struct {
 	Impl StrategyCtl
 }
 
-func (s *StrategyRPCServer) GetState(args interface{}, resp *RobotState) error {
+func (s *StrategyRPCServer) GetState(args interface{}, resp *RobotStatus) error {
 	*resp = s.Impl.GetState()
 	return nil
 }

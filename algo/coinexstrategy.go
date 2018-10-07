@@ -1,6 +1,8 @@
 package algo
 
 import (
+	stdlog "log"
+
 	"github.com/sumorf/coinex/bitmex"
 	"github.com/sumorf/goalgo"
 	"github.com/sumorf/goalgo/log"
@@ -13,10 +15,10 @@ type CoinEXStrategy struct {
 }
 
 func (s *CoinEXStrategy) Setup(params []goalgo.ExchangeParams) error {
-	//log.Printf("CoinEXStrategy Setup")
+	stdlog.Printf("CoinEXStrategy Setup")
 	s.Exchanges = []*bitmex.Bitmex{}
 	for _, p := range params {
-		//log.Print(p)
+		stdlog.Print(p)
 		var ex *bitmex.Bitmex
 		switch p.Name {
 		case "bitmex":
@@ -29,6 +31,7 @@ func (s *CoinEXStrategy) Setup(params []goalgo.ExchangeParams) error {
 		s.Exchanges = append(s.Exchanges, ex)
 
 		if ex == nil {
+			log.Errorf("创建交易所失败 ex == nil")
 			continue
 		}
 

@@ -64,6 +64,24 @@ func (c *Client) Log(sid int, id uint64, tm int64, level int32, message string) 
 	return errors.New(r.Message)
 }
 
+func (c *Client) UpdateStatus(robotID string, status RobotStatus) error {
+	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
+	defer cancel()
+	request := &UpdateStatusRequest{
+		RobotId: robotID,
+		Status:  int32(status),
+	}
+	r, err := c.client.UpdateStatus(ctx, request)
+	if err != nil {
+		log.Printf("Log: %v", err)
+		return err
+	}
+	if r.Success {
+		return nil
+	}
+	return errors.New(r.Message)
+}
+
 // GetClient 获得RPC客户端对象
 func GetClient() *Client {
 	once.Do(func() {

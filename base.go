@@ -1,19 +1,19 @@
 package goalgo
 
-// RobotState 机器人状态
-type RobotState int
+// RobotStatus 机器人状态
+type RobotStatus int8
 
 const (
-	// RStateOff 无
-	RStateOff RobotState = iota
-	// RStateInitialized 初始化
-	RStateInitialized
-	// RStateRunning 运行中
-	RStateRunning
-	// RStateStopRequested 请求停止
-	RStateStopRequested
-	// RStateStopped 停止
-	RStateStopped
-	// RStateError 出错
-	RStateError
+	// RobotStatusDisabled 禁用
+	RobotStatusDisabled RobotStatus = iota
+	// RobotStatusStopped 停止
+	RobotStatusStopped
+	// RobotStatusStarting 启动中
+	RobotStatusStarting
+	// RobotStatusRunning 运行中
+	RobotStatusRunning
+	// RobotStatusRequested RobotStatusStopping 停止中
+	RobotStatusRequested
+	// RobotStatusError 出错
+	RobotStatusError
 )

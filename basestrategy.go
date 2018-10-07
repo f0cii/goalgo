@@ -1,8 +1,10 @@
 package goalgo
 
 import (
-	"log"
+	"fmt"
 	"sync"
+
+	"github.com/sumorf/goalgo/log"
 
 	"github.com/hashicorp/go-plugin"
 )
@@ -11,7 +13,7 @@ import (
 type BaseStrategy struct {
 	self  interface{}
 	mutex sync.RWMutex
-	state RobotState
+	status RobotStatus
 }
 
 // SetSelf 设置 self 对象
@@ -20,17 +22,17 @@ func (s *BaseStrategy) SetSelf(self Strategy) {
 }
 
 // GetState 获取策略状态
-func (s *BaseStrategy) GetState() RobotState {
+func (s *BaseStrategy) GetState() RobotStatus {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
-	return s.state
+	return s.status
 }
 
 // IsRunning 是否运行中
 func (s *BaseStrategy) IsRunning() bool {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
-	return s.state == RStateRunning
+	return s.status == RobotStatusRunning
 }
 
 // Start 启动
@@ -42,64 +44,121 @@ func (s *BaseStrategy) Start() plugin.BasicError {
 func (s *BaseStrategy) run() {
 	defer func() {
 		if err := recover(); err != nil {
-			log.Printf("Run error: %v", err)
-			s.state = RStateStopped
+			log.Errorf("Run error: %v", err)
+			s.status = RobotStatusStopped
 		}
 	}()
-	log.Printf("Start")
+
+	log.Info("Start")
+	
 	if s.self == nil {
-		log.Printf("The strategy this is nil")
-		s.state = RStateStopped
+		log.Errorf("The strategy this is nil")
+		s.status = RobotStatusStopped
+		s.updateStatus(s.status)
 		return
 	}
+
 	strategy, ok := s.self.(Strategy)
 	if !ok {
-		log.Printf("The strategy does not implement Strategy")
-		s.state = RStateStopped
+		log.Errorf("The strategy does not implement Strategy")
+		s.status = RobotStatusStopped
+		s.updateStatus(s.status)
 		return
 	}
 
-	strategy.Init()
-	s.state = RStateInitialized
+	var rError error
 
-	client := GetClient()
-	exchanges, err := client.GetRobotExchangeInfo("", id)
-	if err != nil {
-		log.Printf("GetRobotExchangeInfo error: %v", err)
-	} else {
-		params := []ExchangeParams{}
-		for _, ex := range exchanges {
-			params = append(params, ExchangeParams{
-				Label:     ex.Label,
-				Name:      ex.Name,
-				AccessKey: ex.AccessKey,
-				SecretKey: ex.SecretKey,
-			})
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				rError = fmt.Errorf("%v", r)
+			}
+		}()
+		client := GetClient()
+		exchanges, err := client.GetRobotExchangeInfo("", id)
+		if err != nil {
+			log.Errorf("GetRobotExchangeInfo error: %v", err)
+		} else {
+			params := []ExchangeParams{}
+			for _, ex := range exchanges {
+				params = append(params, ExchangeParams{
+					Label:     ex.Label,
+					Name:      ex.Name,
+					AccessKey: ex.AccessKey,
+					SecretKey: ex.SecretKey,
+				})
+			}
+			log.Info("Setup...")
+			rError = strategy.Setup(params)
+			log.Info("Setup.")
 		}
-		log.Printf("Setup...")
-		strategy.Setup(params)
-		log.Printf("Setup.")
+	}()
+
+	if rError != nil {
+		log.Errorf("%v", rError)
+		s.status = RobotStatusError
+		s.updateStatus(s.status)
+		return
 	}
 
-	s.state = RStateRunning
-	strategy.Run()
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				rError = fmt.Errorf("%v", r)
+			}
+		}()
+		rError = strategy.Init()
+	}()
 
-	log.Printf("Run done")
-	s.state = RStateStopped
+	if rError != nil {
+		log.Errorf("%v", rError)
+		s.status = RobotStatusError
+		s.updateStatus(s.status)
+		return
+	}
+
+	s.status = RobotStatusStarting
+
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				rError = fmt.Errorf("%v", r)
+			}
+		}()
+		rError = strategy.Run()
+	}()
+
+	//log.Info("Run done")
+
+	if rError != nil {
+		s.status = RobotStatusError
+		log.Errorf("%v", rError)
+	} else {
+		s.status = RobotStatusStopped
+		log.Info("停止")
+	}
+
+	// 同步状态
+	s.updateStatus(s.status)
+}
+
+func (s *BaseStrategy) updateStatus(status RobotStatus) {
+	client := GetClient()
+	client.UpdateStatus(id, status)
 }
 
 // Stop 停止
 func (s *BaseStrategy) Stop() plugin.BasicError {
-	log.Printf("Stop")
+	log.Info("Stop")
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
-	if s.state == RStateStopped {
+	if s.status == RobotStatusStopped {
 		return plugin.BasicError{}
 	}
-	if s.state != RStateRunning {
+	if s.status != RobotStatusRunning {
 		return plugin.BasicError{Message: "State error"}
 	}
-	s.state = RStateStopRequested
+	s.status = RobotStatusRequested
 	return plugin.BasicError{}
 }
 
