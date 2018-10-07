@@ -1,7 +1,15 @@
 # goalgo
 A real-time quantitative trading platform in Golang.
 
-请登录官方网站:
+这是一个严肃的基于Go的量化系统，目前正在内部使用。
+
+目前支持基于以下两个库编写策略：
+1、GoEx https://github.com/nntaoli-project/GoEx
+2、coinex https://github.com/sumorf/coinex
+
+其中coinex提供了对BitMEX交易所的支持，内部集成了Rest和WebSocket接口
+
+欢迎交流，预使用此系统，请自行登录以下官网注册账号:
 
 http://39.104.22.80:8000
 
