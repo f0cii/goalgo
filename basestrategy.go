@@ -11,8 +11,8 @@ import (
 
 // BaseStrategy 策略基础类
 type BaseStrategy struct {
-	self  interface{}
-	mutex sync.RWMutex
+	self   interface{}
+	mutex  sync.RWMutex
 	status RobotStatus
 }
 
@@ -50,7 +50,7 @@ func (s *BaseStrategy) run() {
 	}()
 
 	log.Info("Start")
-	
+
 	if s.self == nil {
 		log.Errorf("The strategy this is nil")
 		s.status = RobotStatusStopped
@@ -117,7 +117,7 @@ func (s *BaseStrategy) run() {
 		return
 	}
 
-	s.status = RobotStatusStarting
+	s.status = RobotStatusRunning
 
 	func() {
 		defer func() {
