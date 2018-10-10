@@ -3,19 +3,19 @@ package algo
 import (
 	stdlog "log"
 
-	"github.com/SuperGod/coinex/bitmex"
+	"github.com/sumorf/coinex/bitmex"
 	"github.com/sumorf/goalgo"
 	"github.com/sumorf/goalgo/log"
 )
 
-type CoinEXStrategy struct {
+type CoinEXSumorftrategy struct {
 	goalgo.BaseStrategy
 	Exchange  *bitmex.Bitmex
 	Exchanges []*bitmex.Bitmex
 }
 
-func (s *CoinEXStrategy) Setup(params []goalgo.ExchangeParams) error {
-	stdlog.Printf("CoinEXStrategy Setup")
+func (s *CoinEXSumorftrategy) Setup(params []goalgo.ExchangeParams) error {
+	stdlog.Printf("CoinEXSumorftrategy Setup")
 	s.Exchanges = []*bitmex.Bitmex{}
 	for _, p := range params {
 		stdlog.Print(p)
