@@ -49,7 +49,7 @@ func (s *BaseStrategy) run() {
 		}
 	}()
 
-	log.Info("Start")
+	//log.Info("Start")
 
 	if s.self == nil {
 		log.Errorf("The strategy this is nil")
@@ -88,9 +88,9 @@ func (s *BaseStrategy) run() {
 					SecretKey: ex.SecretKey,
 				})
 			}
-			log.Info("Setup...")
+			//log.Info("Setup...")
 			rError = strategy.Setup(params)
-			log.Info("Setup.")
+			//log.Info("Setup.")
 		}
 	}()
 
@@ -135,7 +135,7 @@ func (s *BaseStrategy) run() {
 		log.Errorf("%v", rError)
 	} else {
 		s.status = RobotStatusStopped
-		log.Info("停止")
+		log.Info("Stopped")
 	}
 
 	// 同步状态
@@ -149,7 +149,7 @@ func (s *BaseStrategy) updateStatus(status RobotStatus) {
 
 // Stop 停止
 func (s *BaseStrategy) Stop() plugin.BasicError {
-	log.Info("Stop")
+	log.Info("OnStop")
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.status == RobotStatusStopped {
