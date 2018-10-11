@@ -1,9 +1,9 @@
-package algo
+﻿package algo
 
 import (
 	stdlog "log"
 
-	"github.com/SuperGod/coinex/bitmex"
+	"github.com/sumorf/coinex/bitmex"
 	"github.com/sumorf/goalgo"
 	"github.com/sumorf/goalgo/log"
 )
