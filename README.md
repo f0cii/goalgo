@@ -16,7 +16,7 @@ coinex https://github.com/SuperGod/coinex
 
 http://39.104.22.80:8000
 
-1.简单的基于GoEx策略脚本:
+1.简单的基于 GoEx 策略脚本:
 
 ```go
 package main
@@ -63,7 +63,7 @@ func main() {
 }
 ```
 
-2.简单的基于coinex(BitMEX期货市场)策略脚本:
+2.简单的基于 coinex(BitMEX 期货市场)策略脚本:
 
 ```go
 package main
@@ -114,3 +114,7 @@ func main() {
 	goalgo.Serve(s)
 }
 ```
+
+### 如果对你有用，欢迎打赏
+
+<img src="https://github.com/sumorf/goalgo/raw/master/dev/wechat_pay.png" width="250" alt="谢谢打赏">&nbsp;&nbsp;&nbsp;<img src="https://github.com/sumorf/goalgo/raw/master/dev/ali_pay.jpg" width="250" alt="谢谢打赏">
