@@ -1,9 +1,12 @@
 package goalgo
 
 import (
+	"bytes"
 	"log"
 	"sync"
 	"time"
+
+	"github.com/vmihailenco/msgpack"
 
 	"errors"
 
@@ -41,6 +44,56 @@ func (c *Client) GetRobotExchangeInfo(uid string, id string) ([]*RobotExchangeIn
 		return nil, err
 	}
 	return r.GetExchanges(), nil
+}
+
+func (c *Client) GetValue(key string) (Value, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
+	defer cancel()
+	request := &GetValueRequest{
+		RobotId: id,
+		Key:     key,
+	}
+	r, err := c.client.GetValue(ctx, request)
+	if err != nil {
+		log.Printf("Log: %v", err)
+		return Value{}, err
+	}
+
+	buff := bytes.NewBuffer(r.Value)
+	dec := msgpack.NewDecoder(buff)
+	var v Value
+	err = dec.Decode(&v)
+	if err != nil {
+		return Value{}, err
+	}
+	return v, nil
+}
+
+func (c *Client) SetValue(key string, value Value) error {
+	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
+	defer cancel()
+
+	writer := bytes.NewBuffer(nil)
+	enc := msgpack.NewEncoder(writer)
+	var err error
+	err = enc.Encode(&value)
+	if err != nil {
+		return err
+	}
+
+	data := writer.Bytes()
+
+	request := &SetValueRequest{
+		RobotId: id,
+		Key:     key,
+		Value:   data,
+	}
+	_, err = c.client.SetValue(ctx, request)
+	if err != nil {
+		log.Printf("Log: %v", err)
+		return err
+	}
+	return nil
 }
 
 func (c *Client) Log(sid int, id uint64, tm int64, level int32, message string) error {

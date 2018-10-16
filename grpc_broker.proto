@@ -7,6 +7,12 @@ service RobotCtl {
   // 获取交易所配置
   rpc GetRobotExchangeInfo (RobotExchangeInfoRequest) returns (RobotExchangeInfoReply) {}
 
+  // 获取配置值
+  rpc GetValue (GetValueRequest) returns (GetValueReply) {}
+
+  // 保存配置值
+  rpc SetValue (SetValueRequest) returns (SetValueReply) {}
+
   // 写入日志
   rpc Log (LogRequest) returns (LogReply) {}
 
@@ -28,6 +34,28 @@ message RobotExchangeInfo {
 
 message RobotExchangeInfoReply {
   repeated RobotExchangeInfo exchanges = 1;
+}
+
+message GetValueRequest {
+  string robot_id = 1;
+  string key = 2;
+}
+
+message GetValueReply {
+  bool success = 1;
+  string message = 2;
+  bytes value = 3;
+}
+
+message SetValueRequest {
+  string robot_id = 1;
+  string key = 2;
+  bytes value = 3;
+}
+
+message SetValueReply {
+  bool success = 1;
+  string message = 2;
 }
 
 message LogRequest {
