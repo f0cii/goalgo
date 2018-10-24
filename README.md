@@ -16,6 +16,8 @@ coinex https://github.com/SuperGod/coinex
 
 http://39.104.22.80:8000
 
+如有问题，请联系 QQ: 529808348
+
 1.简单的基于 GoEx 策略脚本:
 
 ```go
