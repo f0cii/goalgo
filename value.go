@@ -157,6 +157,18 @@ func ToBool(value interface{}) bool {
 	return false
 }
 
+// ToInt64 convert any type to int64
+func ToInt64(value interface{}) int64 {
+	i := ToInt(value)
+	return int64(i)
+}
+
+// ToUint64 convert any type to uint64
+func ToUint64(value interface{}) uint64 {
+	i := ToInt(value)
+	return uint64(i)
+}
+
 // ToInt convert any type to int
 func ToInt(value interface{}) int {
 	switch value := value.(type) {
@@ -247,6 +259,40 @@ func ToInt(value interface{}) int {
 	// If the value cannot be transformed into an int, return nil instead of '0'
 	// to denote 'no integer found'
 	return 0 // nil
+}
+
+// ToFloat32 convert any type to float32
+func ToFloat32(value interface{}) float32 {
+	switch value := value.(type) {
+	case bool:
+		if value == true {
+			return 1.0
+		}
+		return 0.0
+	case *bool:
+		return ToFloat32(*value)
+	case int:
+		return float32(value)
+	case *int32:
+		return ToFloat32(*value)
+	case float32:
+		return value
+	case *float32:
+		return ToFloat32(*value)
+	case float64:
+		return ToFloat32(fmt.Sprintf("%v", value))
+	case *float64:
+		return ToFloat32(*value)
+	case string:
+		val, err := strconv.ParseFloat(value, 32)
+		if err != nil {
+			return 0
+		}
+		return float32(val)
+	case *string:
+		return ToFloat32(*value)
+	}
+	return 0.0
 }
 
 // ToFloat convert any type to float

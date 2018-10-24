@@ -23,10 +23,9 @@ var PluginMap = map[string]plugin.Plugin{
 
 // StrategyCtl 插件接口
 type StrategyCtl interface {
-	//GetOptions() (ret map[string]*OptionInfo)
 	GetState() RobotStatus
-	//Setup(options SetupOptions) string
-	//SetupOptions(options string) string
+	GetOptions() (optionMap map[string]*OptionInfo)
+	SetOptions(options map[string]interface{}) plugin.BasicError
 	Start() plugin.BasicError
 	Stop() plugin.BasicError
 	Pause() plugin.BasicError
@@ -43,6 +42,32 @@ func (g *StrategyRPC) GetState() RobotStatus {
 		// You usually want your interfaces to return errors. If they don't,
 		// there isn't much other choice here.
 		return RobotStatusDisabled
+	}
+
+	return resp
+}
+
+// GetOptions ...
+func (g *StrategyRPC) GetOptions() (optionMap map[string]*OptionInfo) {
+	var resp map[string]*OptionInfo
+	err := g.client.Call("Plugin.GetOptions", new(interface{}), &resp)
+	if err != nil {
+		// You usually want your interfaces to return errors. If they don't,
+		// there isn't much other choice here.
+		return map[string]*OptionInfo{}
+	}
+
+	return resp
+}
+
+// SetOptions ...
+func (g *StrategyRPC) SetOptions(options map[string]interface{}) plugin.BasicError {
+	var resp plugin.BasicError
+	err := g.client.Call("Plugin.SetOptions", options, &resp)
+	if err != nil {
+		// You usually want your interfaces to return errors. If they don't,
+		// there isn't much other choice here.
+		return plugin.BasicError{Message: err.Error()}
 	}
 
 	return resp
@@ -99,6 +124,16 @@ type StrategyRPCServer struct {
 
 func (s *StrategyRPCServer) GetState(args interface{}, resp *RobotStatus) error {
 	*resp = s.Impl.GetState()
+	return nil
+}
+
+func (s *StrategyRPCServer) GetOptions(args interface{}, resp *map[string]*OptionInfo) error {
+	*resp = s.Impl.GetOptions()
+	return nil
+}
+
+func (s *StrategyRPCServer) SetOptions(args map[string]interface{}, resp *plugin.BasicError) error {
+	*resp = s.Impl.SetOptions(args)
 	return nil
 }
 

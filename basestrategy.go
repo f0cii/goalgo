@@ -2,12 +2,30 @@ package goalgo
 
 import (
 	"fmt"
+	"reflect"
+	"strings"
 	"sync"
 
 	"github.com/sumorf/goalgo/log"
 
+	"runtime/debug"
+
 	"github.com/hashicorp/go-plugin"
 )
+
+const (
+	// OptionTag 选项Tag
+	OptionTag = "option"
+)
+
+// OptionInfo 参数信息
+type OptionInfo struct {
+	FeildName    string
+	Name         string
+	Type         string
+	Value        interface{}
+	DefaultValue interface{}
+}
 
 // BaseStrategy 策略基础类
 type BaseStrategy struct {
@@ -35,6 +53,180 @@ func (s *BaseStrategy) IsRunning() bool {
 	return s.status == RobotStatusRunning
 }
 
+// GetOptions 获取参数
+func (s *BaseStrategy) GetOptions() (optionMap map[string]*OptionInfo) {
+	//log.Info("GetOptions")
+	optionMap = map[string]*OptionInfo{}
+
+	if s.self == nil {
+		return
+	}
+
+	val := reflect.ValueOf(s.self)
+
+	// If it's an interface or a pointer, unwrap it.
+	if val.Kind() == reflect.Ptr && val.Elem().Kind() == reflect.Struct {
+		val = val.Elem()
+	} else {
+		return
+	}
+
+	valNumFields := val.NumField()
+
+	for i := 0; i < valNumFields; i++ {
+		field := val.Field(i)
+		fieldKind := field.Kind()
+		if fieldKind == reflect.Ptr && field.Elem().Kind() == reflect.Struct {
+			continue
+		}
+
+		typeField := val.Type().Field(i)
+		fieldName := typeField.Name
+		tag := typeField.Tag
+
+		if !field.CanInterface() {
+			continue
+		}
+
+		option := tag.Get(OptionTag)
+
+		if option == "" {
+			continue
+		}
+
+		var name string
+		var defaultValueString string
+		index := strings.Index(option, ",")
+		//fmt.Printf("tag: %v i: %v\n", option, index)
+		if index != -1 {
+			name = option[0:index]
+			defaultValueString = option[index+1:]
+		} else {
+			name = option
+		}
+		value := field.Interface()
+		defaultValue := s.getDefaultValue(fieldKind, defaultValueString)
+
+		optionMap[fieldName] = &OptionInfo{
+			FeildName:    fieldName,
+			Name:         name,
+			Type:         typeField.Type.String(),
+			Value:        value,
+			DefaultValue: defaultValue,
+		}
+		//log.Infof("F: %v V: %v", fieldName, value)
+	}
+
+	return
+}
+
+func (s *BaseStrategy) getDefaultValue(kind reflect.Kind, value string) interface{} {
+	switch kind {
+	case reflect.Bool:
+		return ToBool(value)
+	case reflect.String:
+		return value
+	case reflect.Int:
+		return ToInt(value)
+	case reflect.Int8:
+		return int8(ToInt(value))
+	case reflect.Int16:
+		return int16(ToInt(value))
+	case reflect.Int32:
+		return int32(ToInt(value))
+	case reflect.Int64:
+		return ToInt64(value)
+	case reflect.Uint:
+		return uint(ToInt(value))
+	case reflect.Uint8:
+		return uint8(ToInt(value))
+	case reflect.Uint16:
+		return uint16(ToInt(value))
+	case reflect.Uint32:
+		return uint32(ToInt(value))
+	case reflect.Uint64:
+		return uint64(ToInt64(value))
+	case reflect.Float32:
+		return ToFloat32(value)
+	case reflect.Float64:
+		return ToFloat(value)
+	}
+	return 0
+}
+
+// setOptions 设置参数
+func (s *BaseStrategy) SetOptions(options map[string]interface{}) plugin.BasicError {
+	if len(options) == 0 {
+		return plugin.BasicError{}
+	}
+
+	rawOptions := s.GetOptions()
+
+	// 反射成员变量
+	val := reflect.ValueOf(s.self)
+
+	// If it's an interface or a pointer, unwrap it.
+	if val.Kind() == reflect.Ptr && val.Elem().Kind() == reflect.Struct {
+		val = val.Elem()
+	} else {
+		return plugin.BasicError{}
+	}
+
+	for name, value := range options {
+		var fieldName string
+
+		if ipi, ok := rawOptions[name]; !ok {
+			continue
+		} else {
+			fieldName = ipi.FeildName
+		}
+
+		//fmt.Println(fieldName)
+
+		v := val.FieldByName(fieldName)
+		if !v.IsValid() {
+			continue
+		}
+
+		switch v.Kind() {
+		default:
+			fmt.Printf("Error Kind: %v\n", v.Kind())
+		case reflect.Bool:
+			v.SetBool(ToBool(value))
+		case reflect.String:
+			v.SetString(value.(string))
+		case reflect.Int:
+			v.SetInt(ToInt64(value))
+		case reflect.Int8:
+			v.SetInt(ToInt64(value))
+		case reflect.Int16:
+			v.SetInt(ToInt64(value))
+		case reflect.Int32:
+			v.SetInt(ToInt64(value))
+		case reflect.Int64:
+			v.SetInt(ToInt64(value))
+		case reflect.Uint:
+			v.SetUint(ToUint64(value))
+		case reflect.Uint8:
+			v.SetUint(ToUint64(value))
+		case reflect.Uint16:
+			v.SetUint(ToUint64(value))
+		case reflect.Uint32:
+			v.SetUint(ToUint64(value))
+		case reflect.Uint64:
+			v.SetUint(ToUint64(value))
+		case reflect.Float32:
+			v.SetFloat(ToFloat(value))
+		case reflect.Float64:
+			v.SetFloat(ToFloat(value))
+			// case reflect.Struct:
+			// 	v.Set(reflect.ValueOf(value))
+		}
+	}
+
+	return plugin.BasicError{}
+}
+
 // Start 启动
 func (s *BaseStrategy) Start() plugin.BasicError {
 	go s.run()
@@ -52,7 +244,7 @@ func (s *BaseStrategy) run() {
 	//log.Info("Start")
 
 	if s.self == nil {
-		log.Errorf("The strategy this is nil")
+		log.Error("The strategy this is nil")
 		s.status = RobotStatusStopped
 		s.updateStatus(s.status)
 		return
@@ -60,7 +252,7 @@ func (s *BaseStrategy) run() {
 
 	strategy, ok := s.self.(Strategy)
 	if !ok {
-		log.Errorf("The strategy does not implement Strategy")
+		log.Error("The strategy does not implement Strategy")
 		s.status = RobotStatusStopped
 		s.updateStatus(s.status)
 		return
@@ -95,7 +287,7 @@ func (s *BaseStrategy) run() {
 	}()
 
 	if rError != nil {
-		log.Errorf("%v", rError)
+		log.Errorf("Setup error: %v", rError)
 		s.status = RobotStatusError
 		s.updateStatus(s.status)
 		return
@@ -111,7 +303,7 @@ func (s *BaseStrategy) run() {
 	}()
 
 	if rError != nil {
-		log.Errorf("%v", rError)
+		log.Errorf("Init error: %v", rError)
 		s.status = RobotStatusError
 		s.updateStatus(s.status)
 		return
@@ -123,6 +315,7 @@ func (s *BaseStrategy) run() {
 		defer func() {
 			if r := recover(); r != nil {
 				rError = fmt.Errorf("%v", r)
+				log.Errorf("Run error: stack=%v", string(debug.Stack()))
 			}
 		}()
 		rError = strategy.Run()
@@ -132,7 +325,7 @@ func (s *BaseStrategy) run() {
 
 	if rError != nil {
 		s.status = RobotStatusError
-		log.Errorf("%v", rError)
+		log.Errorf("Run error: %v", rError)
 	} else {
 		s.status = RobotStatusStopped
 		log.Info("Stopped")
