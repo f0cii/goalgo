@@ -34,11 +34,11 @@ var (
 )
 
 func (r *Value) EncodeMsgpack(enc *msgpack.Encoder) error {
-	return enc.Encode(r.Kind, r.Value)
+	return enc.Encode(r)
 }
 
 func (r *Value) DecodeMsgpack(enc *msgpack.Decoder) error {
-	return enc.Decode(&r.Kind, &r.Value)
+	return enc.Decode(&r)
 }
 
 func (value *Value) ToBool() bool {
