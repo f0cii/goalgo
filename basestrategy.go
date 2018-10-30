@@ -20,11 +20,11 @@ const (
 
 // OptionInfo 参数信息
 type OptionInfo struct {
-	FeildName    string
-	Name         string
-	Type         string
-	Value        interface{}
-	DefaultValue interface{}
+	Name         string      `json:"name"`
+	Description  string      `json:"description"`
+	Type         string      `json:"type"`
+	Value        interface{} `json:"value"`
+	DefaultValue interface{} `json:"default_value"`
 }
 
 // BaseStrategy 策略基础类
@@ -94,22 +94,22 @@ func (s *BaseStrategy) GetOptions() (optionMap map[string]*OptionInfo) {
 			continue
 		}
 
-		var name string
+		var description string
 		var defaultValueString string
 		index := strings.Index(option, ",")
 		//fmt.Printf("tag: %v i: %v\n", option, index)
 		if index != -1 {
-			name = option[0:index]
+			description = option[0:index]
 			defaultValueString = option[index+1:]
 		} else {
-			name = option
+			description = option
 		}
 		value := field.Interface()
 		defaultValue := s.getDefaultValue(fieldKind, defaultValueString)
 
 		optionMap[fieldName] = &OptionInfo{
-			FeildName:    fieldName,
-			Name:         name,
+			Name:         fieldName,
+			Description:  description,
 			Type:         typeField.Type.String(),
 			Value:        value,
 			DefaultValue: defaultValue,
@@ -178,7 +178,7 @@ func (s *BaseStrategy) SetOptions(options map[string]interface{}) plugin.BasicEr
 		if ipi, ok := rawOptions[name]; !ok {
 			continue
 		} else {
-			fieldName = ipi.FeildName
+			fieldName = ipi.Name
 		}
 
 		//fmt.Println(fieldName)
