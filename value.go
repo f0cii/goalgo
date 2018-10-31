@@ -69,7 +69,7 @@ func (value *Value) SetValue(val interface{}) {
 		value.Kind = ValueBoolean
 		value.Value = v
 	case string:
-		log.Printf("string %#v", val)
+		//log.Printf("string %#v", val)
 		value.Kind = ValueString
 		value.Value = v
 	case int:
@@ -99,6 +99,10 @@ func BoolValue(value bool) Value {
 
 func StringValue(value string) Value {
 	return Value{Value: value, Kind: ValueString}
+}
+
+func IntValue(value int) Value {
+	return Value{Value: int32(value), Kind: ValueInt32}
 }
 
 func Int32Value(value int32) Value {

@@ -46,6 +46,21 @@ func (c *Client) GetRobotExchangeInfo(uid string, id string) ([]*RobotExchangeIn
 	return r.GetExchanges(), nil
 }
 
+func (c *Client) GetRobotOptions(uid string, id string) ([]*RobotOption, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
+	defer cancel()
+	request := &RobotOptionsRequest{
+		Uid:     uid,
+		RobotId: id,
+	}
+	r, err := c.client.GetRobotOptions(ctx, request)
+	if err != nil {
+		log.Printf("Log: %v", err)
+		return nil, err
+	}
+	return r.GetOptions(), nil
+}
+
 func (c *Client) GetValue(key string) (Value, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
 	defer cancel()

@@ -4,6 +4,9 @@ package goalgo;
 
 // The robot control service definition.
 service RobotCtl {
+  // 获取运行参数
+  rpc GetRobotOptions (RobotOptionsRequest) returns (RobotOptionsReply) {}
+
   // 获取交易所配置
   rpc GetRobotExchangeInfo (RobotExchangeInfoRequest) returns (RobotExchangeInfoReply) {}
 
@@ -18,6 +21,20 @@ service RobotCtl {
 
   // 更新状态
   rpc UpdateStatus (UpdateStatusRequest) returns (UpdateStatusReply) {}
+}
+
+message RobotOptionsRequest {
+  string uid = 1;
+  string robot_id = 2;
+}
+
+message RobotOption {
+  string key = 1;
+  string value = 2;
+}
+
+message RobotOptionsReply {
+  repeated RobotOption options = 1;
 }
 
 message RobotExchangeInfoRequest {

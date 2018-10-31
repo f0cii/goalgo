@@ -154,8 +154,10 @@ func (s *BaseStrategy) getDefaultValue(kind reflect.Kind, value string) interfac
 	return 0
 }
 
-// setOptions 设置参数
+// SetOptions 设置参数
 func (s *BaseStrategy) SetOptions(options map[string]interface{}) plugin.BasicError {
+	log.Info("SetOptions")
+
 	if len(options) == 0 {
 		return plugin.BasicError{}
 	}
@@ -259,7 +261,44 @@ func (s *BaseStrategy) run() {
 	}
 
 	var rError error
+	var pErr plugin.BasicError
 
+	// Set options
+	func() {
+		defer func() {
+			if r := recover(); r != nil {
+				rError = fmt.Errorf("%v", r)
+			}
+		}()
+		client := GetClient()
+		options, err := client.GetRobotOptions("", id)
+		if err != nil {
+			log.Errorf("GetRobotOptions error: %v", err)
+		}
+
+		mOptions := map[string]interface{}{}
+		for _, v := range options {
+			mOptions[v.Key] = v.Value
+		}
+
+		pErr = strategy.SetOptions(mOptions)
+	}()
+
+	if rError != nil {
+		log.Errorf("Setup error: %v", rError)
+		s.status = RobotStatusError
+		s.updateStatus(s.status)
+		return
+	}
+
+	if pErr.Error() != "" {
+		log.Errorf("SetOptions error: %v", pErr.Error())
+		s.status = RobotStatusError
+		s.updateStatus(s.status)
+		return
+	}
+
+	// Setup
 	func() {
 		defer func() {
 			if r := recover(); r != nil {
@@ -358,4 +397,14 @@ func (s *BaseStrategy) Stop() plugin.BasicError {
 // Pause 暂停
 func (s *BaseStrategy) Pause() plugin.BasicError {
 	return plugin.BasicError{}
+}
+
+// GetValue 获取一个全局变量
+func (s *BaseStrategy) GetValue(key string) (Value, error) {
+	return GetValue(key)
+}
+
+// SetValue 设置一个全局变量
+func (s *BaseStrategy) SetValue(key string, value Value) error {
+	return SetValue(key, value)
 }
