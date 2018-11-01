@@ -26,6 +26,7 @@ type StrategyCtl interface {
 	GetState() RobotStatus
 	GetOptions() (optionMap map[string]*OptionInfo)
 	SetOptions(options map[string]interface{}) plugin.BasicError
+	QueueCommand(command string) plugin.BasicError
 	Start() plugin.BasicError
 	Stop() plugin.BasicError
 	Pause() plugin.BasicError
@@ -64,6 +65,19 @@ func (g *StrategyRPC) GetOptions() (optionMap map[string]*OptionInfo) {
 func (g *StrategyRPC) SetOptions(options map[string]interface{}) plugin.BasicError {
 	var resp plugin.BasicError
 	err := g.client.Call("Plugin.SetOptions", options, &resp)
+	if err != nil {
+		// You usually want your interfaces to return errors. If they don't,
+		// there isn't much other choice here.
+		return plugin.BasicError{Message: err.Error()}
+	}
+
+	return resp
+}
+
+// QueueCommand ...
+func (g *StrategyRPC) QueueCommand(command string) plugin.BasicError {
+	var resp plugin.BasicError
+	err := g.client.Call("Plugin.QueueCommand", command, &resp)
 	if err != nil {
 		// You usually want your interfaces to return errors. If they don't,
 		// there isn't much other choice here.
@@ -134,6 +148,11 @@ func (s *StrategyRPCServer) GetOptions(args interface{}, resp *map[string]*Optio
 
 func (s *StrategyRPCServer) SetOptions(args map[string]interface{}, resp *plugin.BasicError) error {
 	*resp = s.Impl.SetOptions(args)
+	return nil
+}
+
+func (s *StrategyRPCServer) QueueCommand(args string, resp *plugin.BasicError) error {
+	*resp = s.Impl.QueueCommand(args)
 	return nil
 }
 

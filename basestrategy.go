@@ -1,6 +1,7 @@
 package goalgo
 
 import (
+	"encoding/json"
 	"fmt"
 	"reflect"
 	"strings"
@@ -10,6 +11,7 @@ import (
 
 	"runtime/debug"
 
+	"github.com/Workiva/go-datastructures/queue"
 	"github.com/hashicorp/go-plugin"
 )
 
@@ -29,9 +31,10 @@ type OptionInfo struct {
 
 // BaseStrategy 策略基础类
 type BaseStrategy struct {
-	self   interface{}
-	mutex  sync.RWMutex
-	status RobotStatus
+	self         interface{}
+	mutex        sync.RWMutex
+	commandQueue queue.Queue
+	status       RobotStatus
 }
 
 // SetSelf 设置 self 对象
@@ -227,6 +230,33 @@ func (s *BaseStrategy) SetOptions(options map[string]interface{}) plugin.BasicEr
 	}
 
 	return plugin.BasicError{}
+}
+
+// QueueCommand 命令入队列
+func (s *BaseStrategy) QueueCommand(command string) plugin.BasicError {
+	cmd := Command{}
+	err := json.Unmarshal([]byte(command), &cmd)
+	if err != nil {
+		return plugin.BasicError{}
+	}
+	s.commandQueue.Put(&cmd)
+	return plugin.BasicError{}
+}
+
+// GetCommand 获取一个命令结构
+func (s *BaseStrategy) GetCommand() *Command {
+	_, err := s.commandQueue.Peek()
+	if err != nil {
+		return nil
+	}
+	result, err := s.commandQueue.Get(1)
+	if err != nil {
+		return nil
+	}
+	if len(result) != 1 {
+		return nil
+	}
+	return result[0].(*Command)
 }
 
 // Start 启动
