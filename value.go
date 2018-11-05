@@ -52,6 +52,9 @@ func (value *Value) ToString() string {
 	if v, ok := value.Value.(string); ok {
 		return v
 	}
+	if value.Value == nil {
+		return ""
+	}
 	return fmt.Sprintf("%v", value.Value)
 }
 
