@@ -8,7 +8,7 @@ A real-time quantitative trading platform in Golang.
 
 GoEx https://github.com/nntaoli-project/GoEx
 
-coinex https://github.com/SuperGod/coinex
+coinex https://github.com/sumorf/coinex
 
 其中 coinex 提供了对 BitMEX 交易所的支持，内部集成了 Rest 和 WebSocket 接口
 
