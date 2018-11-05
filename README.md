@@ -14,7 +14,7 @@ coinex https://github.com/SuperGod/coinex
 
 欢迎交流，欲使用此系统，请自行登录以下官网注册账号:
 
-http://39.104.22.80:8000
+https://www.faibot.com
 
 如有问题，请联系 QQ: 529808348
 
