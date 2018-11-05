@@ -74,6 +74,10 @@ func (c *Client) GetValue(key string) (Value, error) {
 		return Value{}, err
 	}
 
+	if string(r.Value) == "" {
+		return Value{}, nil
+	}
+
 	buff := bytes.NewBuffer(r.Value)
 	dec := msgpack.NewDecoder(buff)
 	var v Value
