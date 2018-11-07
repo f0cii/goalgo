@@ -89,12 +89,12 @@ type CoinEXDemoStrategy struct {
 // Init 策略初始化方法，必须实现
 func (s *CoinEXDemoStrategy) Init() error {
 	log.Info("Init")
-	banlance, err := s.Exchange.ContractBalances()
+	balance, err := s.Exchange.Balance()
 	if err != nil {
-		log.Errorf("ContractBalances error: %v", err)
+		log.Errorf("Balance error: %v", err)
 		return err
 	}
-	log.Infof("banlance: %v", banlance)
+	log.Infof("balance: %v", balance)
 
 	return nil
 }
