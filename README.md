@@ -14,7 +14,10 @@ coinex https://github.com/sumorf/coinex
 
 欢迎交流，欲使用此系统，请自行登录以下官网注册账号:
 
-https://www.faibot.com
+https://www.faibot.com (正在备案)
+
+临时访问地址:
+http://39.104.22.80:8000
 
 如有问题，请联系 QQ: 529808348
 
