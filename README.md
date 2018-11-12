@@ -118,18 +118,18 @@ func main() {
 ```
 
 ### Thanks
-This project uses the following external projects or products
-> RabbitMQ
-> PostgreSQL
-> ClickHouse
-> Docker
-> https://github.com/nntaoli-project/GoEx
-> https://github.com/SuperGod/coinex
-> https://github.com/porthos-rpc/porthos-go
-> https://github.com/hashicorp/go-plugin
-> https://github.com/gin-gonic/gin
-> https://vuejs.org
-> ...
+> This project uses the following external projects or products
+1. [RabbitMQ] https://www.rabbitmq.com/
+2. [PostgreSQL] https://www.postgresql.org/
+3. [ClickHouse] https://clickhouse.yandex/
+4. [Docker] https://www.docker.com/
+5. [GoEx] https://github.com/nntaoli-project/GoEx
+6. [coinex] https://github.com/SuperGod/coinex
+7. [porthos-go] https://github.com/porthos-rpc/porthos-go
+8. [go-plugin] https://github.com/hashicorp/go-plugin
+9. [gin] https://github.com/gin-gonic/gin
+10. [vuejs] https://vuejs.org/
+11. ...
 
 ### 如果对你有用，欢迎打赏
 
