@@ -117,6 +117,20 @@ func main() {
 }
 ```
 
+### Thanks
+This project uses the following external projects or products
+> RabbitMQ
+> PostgreSQL
+> ClickHouse
+> Docker
+> https://github.com/nntaoli-project/GoEx
+> https://github.com/SuperGod/coinex
+> https://github.com/porthos-rpc/porthos-go
+> https://github.com/hashicorp/go-plugin
+> https://github.com/gin-gonic/gin
+> https://vuejs.org
+> ...
+
 ### 如果对你有用，欢迎打赏
 
 <img src="https://github.com/sumorf/goalgo/raw/master/dev/wechat_pay.png" width="250" alt="谢谢打赏">&nbsp;&nbsp;&nbsp;<img src="https://github.com/sumorf/goalgo/raw/master/dev/ali_pay.jpg" width="250" alt="谢谢打赏">
