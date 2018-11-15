@@ -154,6 +154,25 @@ func (c *Client) UpdateStatus(robotID string, status RobotStatus) error {
 	return errors.New(r.Message)
 }
 
+func (c *Client) UpdateStat(name string, value []byte) error {
+	ctx, cancel := context.WithTimeout(context.Background(), c.timeout)
+	defer cancel()
+	request := &StatRequest{
+		RobotId: id,
+		Name:    name,
+		Value:   value,
+	}
+	r, err := c.client.UpdateStat(ctx, request)
+	if err != nil {
+		log.Printf("Log: %v", err)
+		return err
+	}
+	if r.Success {
+		return nil
+	}
+	return errors.New(r.Message)
+}
+
 // GetClient 获得RPC客户端对象
 func GetClient() *Client {
 	once.Do(func() {

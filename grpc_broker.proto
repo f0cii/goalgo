@@ -21,6 +21,9 @@ service RobotCtl {
 
   // 更新状态
   rpc UpdateStatus (UpdateStatusRequest) returns (UpdateStatusReply) {}
+
+  // 更新统计数据
+  rpc UpdateStat (StatRequest) returns (StatReply) {}
 }
 
 message RobotOptionsRequest {
@@ -94,6 +97,17 @@ message UpdateStatusRequest {
 }
 
 message UpdateStatusReply {
+  bool success = 1;
+  string message = 2;
+}
+
+message StatRequest {
+  string robot_id = 1;
+  string name = 2;
+  bytes value = 3;
+}
+
+message StatReply {
   bool success = 1;
   string message = 2;
 }

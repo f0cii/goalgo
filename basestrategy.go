@@ -438,3 +438,8 @@ func (s *BaseStrategy) GetValue(key string) (Value, error) {
 func (s *BaseStrategy) SetValue(key string, value Value) error {
 	return SetValue(key, value)
 }
+
+// UpdateStat 更新统计数据
+func (s *BaseStrategy) UpdateStat(name string, value []byte) error {
+	return GetClient().UpdateStat(name, value)
+}
