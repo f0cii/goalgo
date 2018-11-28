@@ -8,9 +8,9 @@ A real-time quantitative trading platform in Golang.
 
 GoEx https://github.com/nntaoli-project/GoEx
 
-coinex https://github.com/sumorf/coinex
+bitmexwrap https://github.com/sumorf/bitmexwrap
 
-其中 coinex 提供了对 BitMEX 交易所的支持，内部集成了 Rest 和 WebSocket 接口
+其中 bitmexwrap 提供了对 BitMEX 交易所的支持，内部集成了 Rest 和 WebSocket 接口
 
 欢迎交流，欲使用此系统，请自行登录以下官网注册账号:
 
@@ -65,7 +65,7 @@ func main() {
 }
 ```
 
-2.简单的基于 coinex(BitMEX 期货市场)策略脚本:
+2.简单的基于 bitmexwrap(BitMEX 期货市场)策略脚本:
 
 ```go
 package main
@@ -78,13 +78,13 @@ import (
 	"github.com/sumorf/goalgo/log"
 )
 
-// CoinEXDemoStrategy 示例策略(BitMEX)
-type CoinEXDemoStrategy struct {
-	algo.CoinEXStrategy
+// BitMEXDemoStrategy 示例策略(BitMEX)
+type BitMEXDemoStrategy struct {
+	algo.BitMEXStrategy
 }
 
 // Init 策略初始化方法，必须实现
-func (s *CoinEXDemoStrategy) Init() error {
+func (s *BitMEXDemoStrategy) Init() error {
 	log.Info("Init")
 	balance, err := s.Exchange.Balance()
 	if err != nil {
@@ -97,7 +97,7 @@ func (s *CoinEXDemoStrategy) Init() error {
 }
 
 // Run 策略主逻辑，必须实现
-func (s *CoinEXDemoStrategy) Run() error {
+func (s *BitMEXDemoStrategy) Run() error {
 	log.Info("Run")
 	for s.IsRunning() {
 		time.Sleep(3 * time.Second)
@@ -112,7 +112,7 @@ func (s *CoinEXDemoStrategy) Run() error {
 }
 
 func main() {
-	s := &CoinEXDemoStrategy{}
+	s := &BitMEXDemoStrategy{}
 	goalgo.Serve(s)
 }
 ```

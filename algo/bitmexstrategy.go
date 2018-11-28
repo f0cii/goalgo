@@ -8,14 +8,14 @@ import (
 	"github.com/sumorf/goalgo/log"
 )
 
-type CoinEXStrategy struct {
+type BitMEXStrategy struct {
 	goalgo.BaseStrategy
 	Exchange  *bitmex.Bitmex
 	Exchanges []*bitmex.Bitmex
 }
 
-func (s *CoinEXStrategy) Setup(params []goalgo.ExchangeParams) error {
-	stdlog.Printf("CoinEXStrategy Setup")
+func (s *BitMEXStrategy) Setup(params []goalgo.ExchangeParams) error {
+	stdlog.Printf("BitMEXStrategy Setup")
 	s.Exchanges = []*bitmex.Bitmex{}
 	for _, p := range params {
 		stdlog.Print(p)
