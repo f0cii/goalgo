@@ -35,11 +35,23 @@ type BaseStrategy struct {
 	mutex        sync.RWMutex
 	commandQueue queue.Queue
 	status       RobotStatus
+
+	proxy string
 }
 
 // SetSelf 设置 self 对象
 func (s *BaseStrategy) SetSelf(self Strategy) {
 	s.self = self.(interface{})
+}
+
+// SetProxy 设置访问网络的(http://127.0.0.1:1080)
+func (s *BaseStrategy) SetProxy(proxy string) {
+	s.proxy = proxy
+}
+
+// GetProxy 获取当前代理
+func (s *BaseStrategy) GetProxy() string {
+	return s.proxy
 }
 
 // GetState 获取策略状态

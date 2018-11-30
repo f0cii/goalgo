@@ -35,6 +35,11 @@ func (s *BitMEXStrategy) Setup(params []goalgo.ExchangeParams) error {
 			continue
 		}
 
+		proxy := s.GetProxy()
+		if proxy != "" {
+			ex.SetProxy(proxy)
+		}
+
 		err := ex.StartWS()
 		if err != nil {
 			log.Errorf("StartWS error: %v", err)
