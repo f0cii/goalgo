@@ -131,6 +131,10 @@ func main() {
 10. [vuejs] https://vuejs.org/
 11. ...
 
-### 如果对你有用，欢迎打赏
+### 捐赠
 
-<img src="https://github.com/sumorf/goalgo/raw/master/dev/wechat_pay.png" width="250" alt="谢谢打赏">&nbsp;&nbsp;&nbsp;<img src="https://github.com/sumorf/goalgo/raw/master/dev/ali_pay.jpg" width="250" alt="谢谢打赏">
+> BTC:17XauetDWtwAZKHRyEw3DpYcRqzhKZzPHq
+
+> ETH:0x5e065711852fda9b75c4e490b1e35eea89b9aaa5
+
+> XRP:rshdB4kyxXkuPCtCgZw8DrcuSo7jEWfqck
