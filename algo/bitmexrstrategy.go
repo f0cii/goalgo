@@ -1,9 +1,9 @@
-﻿package algo
+package algo
 
 import (
 	stdlog "log"
 
-	"github.com/sumorf/bitmexwrap/bitmex"
+	"github.com/sumorf/bitmex-api"
 	"github.com/sumorf/goalgo"
 	"github.com/sumorf/goalgo/log"
 )
@@ -11,21 +11,21 @@ import (
 // BitMEXRStrategy BitMEX策略基类，此版本不启动WS
 type BitMEXRStrategy struct {
 	goalgo.BaseStrategy
-	Exchange  *bitmex.Bitmex
-	Exchanges []*bitmex.Bitmex
+	Exchange  *bitmex.BitMEX
+	Exchanges []*bitmex.BitMEX
 }
 
 func (s *BitMEXRStrategy) Setup(params []goalgo.ExchangeParams) error {
 	stdlog.Printf("BitMEXRStrategy Setup")
-	s.Exchanges = []*bitmex.Bitmex{}
+	s.Exchanges = []*bitmex.BitMEX{}
 	for _, p := range params {
 		stdlog.Print(p)
-		var ex *bitmex.Bitmex
+		var ex *bitmex.BitMEX
 		switch p.Name {
 		case "bitmex":
-			ex = bitmex.NewBitmex(p.AccessKey, p.SecretKey)
+			ex = bitmex.New(bitmex.BitmexTestnetHost, p.AccessKey, p.SecretKey, "XBTUSD")
 		case "bitmex_test":
-			ex = bitmex.NewBitmexTest(p.AccessKey, p.SecretKey)
+			ex = bitmex.New(bitmex.BitmexTestnetHost, p.AccessKey, p.SecretKey, "XBTUSD")
 		default:
 			log.Errorf("交易所设置错误 %v", p.Name)
 		}
@@ -34,11 +34,6 @@ func (s *BitMEXRStrategy) Setup(params []goalgo.ExchangeParams) error {
 		if ex == nil {
 			log.Errorf("创建交易所失败 ex == nil")
 			continue
-		}
-
-		proxy := s.GetProxy()
-		if proxy != "" {
-			ex.SetProxy(proxy)
 		}
 	}
 	if len(s.Exchanges) > 0 {
