@@ -14,6 +14,10 @@ func GetLogger() *Logger {
 	return &logger
 }
 
+func GetLevel() Level {
+	return logLevel
+}
+
 func SetLevel(level Level) {
 	logLevel = level
 }
