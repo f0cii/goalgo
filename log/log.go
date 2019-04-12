@@ -6,11 +6,16 @@ import (
 )
 
 var (
-	logger Logger
+	logger   Logger
+	logLevel = InfoLevel
 )
 
 func GetLogger() *Logger {
 	return &logger
+}
+
+func SetLevel(level Level) {
+	logLevel = level
 }
 
 func Debug(msg string) {
@@ -54,6 +59,9 @@ func Fatalf(msg string, v ...interface{}) {
 }
 
 func log(level Level, message string) {
+	if level < logLevel {
+		return
+	}
 	id, _ := sf.NextID()
 	e := NewEntry(id, level, message)
 	logger.Log.Log(e)
