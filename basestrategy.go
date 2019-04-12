@@ -29,6 +29,11 @@ type OptionInfo struct {
 	DefaultValue interface{} `json:"default_value"`
 }
 
+// AfterOptionsChanged 策略参数改变接口，实现此接口的策略，在动态改变参数后触发此方法
+type AfterOptionsChanged interface {
+	AfterOptionsChanged()
+}
+
 // BaseStrategy 策略基础类
 type BaseStrategy struct {
 	self         interface{}
@@ -44,7 +49,7 @@ func (s *BaseStrategy) SetSelf(self Strategy) {
 	s.self = self.(interface{})
 }
 
-// SetProxy 设置访问网络的(http://127.0.0.1:1080)
+// SetProxy 设置访问网络的代理(主要方便本地测试，如：http://127.0.0.1:1080)
 func (s *BaseStrategy) SetProxy(proxy string) {
 	s.proxy = proxy
 }
@@ -241,6 +246,11 @@ func (s *BaseStrategy) SetOptions(options map[string]interface{}) plugin.BasicEr
 		}
 	}
 
+	// 触发事件
+	if v, ok := s.self.(AfterOptionsChanged); ok {
+		v.AfterOptionsChanged()
+	}
+
 	return plugin.BasicError{}
 }
 
@@ -251,7 +261,7 @@ func (s *BaseStrategy) QueueCommand(command string) plugin.BasicError {
 	if err != nil {
 		return plugin.BasicError{}
 	}
-	s.commandQueue.Put(&cmd)
+	_ = s.commandQueue.Put(&cmd)
 	return plugin.BasicError{}
 }
 
@@ -352,7 +362,7 @@ func (s *BaseStrategy) run() {
 		if err != nil {
 			log.Errorf("GetRobotExchangeInfo error: %v", err)
 		} else {
-			params := []ExchangeParams{}
+			var params []ExchangeParams
 			for _, ex := range exchanges {
 				params = append(params, ExchangeParams{
 					Label:     ex.Label,
