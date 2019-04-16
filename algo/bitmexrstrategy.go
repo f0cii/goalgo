@@ -23,7 +23,7 @@ func (s *BitMEXRStrategy) Setup(params []goalgo.ExchangeParams) error {
 		var ex *bitmex.BitMEX
 		switch p.Name {
 		case "bitmex":
-			ex = bitmex.New(bitmex.BitmexTestnetHost, p.AccessKey, p.SecretKey, "XBTUSD")
+			ex = bitmex.New(bitmex.BitmexHost, p.AccessKey, p.SecretKey, "XBTUSD")
 		case "bitmex_test":
 			ex = bitmex.New(bitmex.BitmexTestnetHost, p.AccessKey, p.SecretKey, "XBTUSD")
 		default:
