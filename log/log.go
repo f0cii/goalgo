@@ -3,12 +3,17 @@ package log
 import (
 	//"flag"
 	"fmt"
+	slog "github.com/sirupsen/logrus"
 )
 
 var (
 	logger   Logger
 	logLevel = InfoLevel
 )
+
+func init() {
+	slog.SetFormatter(&slog.TextFormatter{})
+}
 
 func GetLogger() *Logger {
 	return &logger
@@ -68,5 +73,22 @@ func log(level Level, message string) {
 	}
 	id, _ := sf.NextID()
 	e := NewEntry(id, level, message)
+
+	if logger.Log == nil {
+		switch level {
+		case DebugLevel:
+			slog.Debug(message)
+		case InfoLevel:
+			slog.Info(message)
+		case WarnLevel:
+			slog.Warn(message)
+		case ErrorLevel:
+			slog.Error(message)
+		case FatalLevel:
+			slog.Fatal(message)
+		}
+		return
+	}
+
 	logger.Log.Log(e)
 }
