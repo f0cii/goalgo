@@ -265,6 +265,12 @@ func (s *BaseStrategy) QueueCommand(command string) plugin.BasicError {
 	return plugin.BasicError{}
 }
 
+// QueueCommandRaw 命令入队列
+func (s *BaseStrategy) QueueCommandRaw(command Command) {
+	cmd := command
+	_ = s.commandQueue.Put(&cmd)
+}
+
 // GetCommand 获取一个命令结构
 func (s *BaseStrategy) GetCommand() *Command {
 	_, err := s.commandQueue.Peek()
