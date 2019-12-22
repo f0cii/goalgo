@@ -3,9 +3,9 @@ package algo
 import (
 	stdlog "log"
 
-	"github.com/sumorf/bitmex-api"
-	"github.com/sumorf/goalgo"
-	"github.com/sumorf/goalgo/log"
+	"github.com/frankrap/bitmex-api"
+	"github.com/frankrap/goalgo"
+	"github.com/frankrap/goalgo/log"
 )
 
 // BitMEXRStrategy BitMEX策略基类，此版本不启动WS

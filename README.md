@@ -8,7 +8,7 @@ A real-time quantitative trading platform in Golang.
 
 GoEx https://github.com/nntaoli-project/GoEx
 
-bitmexwrap https://github.com/sumorf/bitmexwrap
+bitmexwrap https://github.com/frankrap/bitmexwrap
 
 其中 bitmexwrap 提供了对 BitMEX 交易所的支持，内部集成了 Rest 和 WebSocket 接口
 
@@ -27,9 +27,9 @@ import (
 	"time"
 
 	"github.com/nntaoli-project/GoEx"
-	"github.com/sumorf/goalgo"
-	"github.com/sumorf/goalgo/algo"
-	"github.com/sumorf/goalgo/log"
+	"github.com/frankrap/goalgo"
+	"github.com/frankrap/goalgo/algo"
+	"github.com/frankrap/goalgo/log"
 )
 
 // SimpleGoExStrategy 简单的GoEx策略
@@ -73,9 +73,9 @@ package main
 import (
 	"time"
 
-	"github.com/sumorf/goalgo"
-	"github.com/sumorf/goalgo/algo"
-	"github.com/sumorf/goalgo/log"
+	"github.com/frankrap/goalgo"
+	"github.com/frankrap/goalgo/algo"
+	"github.com/frankrap/goalgo/log"
 )
 
 // BitMEXDemoStrategy 示例策略(BitMEX)

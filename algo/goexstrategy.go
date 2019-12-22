@@ -3,7 +3,7 @@ package algo
 import (
 	"log"
 
-	"github.com/sumorf/goalgo"
+	"github.com/frankrap/goalgo"
 
 	"github.com/nntaoli-project/GoEx"
 	"github.com/nntaoli-project/GoEx/builder"

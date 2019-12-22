@@ -7,7 +7,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/sumorf/goalgo/log"
+	"github.com/frankrap/goalgo/log"
 
 	"runtime/debug"
 

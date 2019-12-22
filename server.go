@@ -11,7 +11,7 @@ import (
 	stdlog "log"
 
 	"github.com/hashicorp/go-plugin"
-	"github.com/sumorf/goalgo/log"
+	"github.com/frankrap/goalgo/log"
 )
 
 func Serve(strategy Strategy) {

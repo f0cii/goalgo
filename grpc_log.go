@@ -3,7 +3,7 @@ package goalgo
 import (
 	stdlog "log"
 
-	"github.com/sumorf/goalgo/log"
+	"github.com/frankrap/goalgo/log"
 )
 
 type GRPCLog struct {
