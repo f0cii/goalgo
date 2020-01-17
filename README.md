@@ -8,13 +8,13 @@ A real-time quantitative trading platform in Golang.
 
 GoEx https://github.com/nntaoli-project/GoEx
 
-bitmexwrap https://github.com/frankrap/bitmexwrap
+bitmex-api https://github.com/frankrap/bitmex-api
 
 其中 bitmexwrap 提供了对 BitMEX 交易所的支持，内部集成了 Rest 和 WebSocket 接口
 
 欢迎交流，欲使用此系统，请自行登录以下官网注册账号:
 
-https://www.faibot.com
+https://quant.coinrust.com (演示站点)
 
 如有问题，请联系 QQ: 529808348
 
