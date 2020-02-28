@@ -2,7 +2,8 @@
 
 A real-time quantitative trading platform in Golang.
 
-这是一个严肃的基于 Go 的量化系统，目前正在内部使用。
+这是一个基于 Go 的量化系统，此项目不支持回测，新项目请参见: 
+[gotrader] https://github.com/coinrust/gotrader
 
 目前支持基于以下两个库编写策略
 
