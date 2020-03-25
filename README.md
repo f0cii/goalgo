@@ -3,7 +3,7 @@
 A real-time quantitative trading platform in Golang.
 
 这是一个基于 Go 的量化系统，此项目不支持回测，新项目请移步: 
-[gotrader] https://github.com/coinrust/gotrader （同时支持BitMEX, Deribit, ByBit...）
+[crex] https://github.com/coinrust/crex （同时支持BitMEX, Deribit, ByBit...）
 
 目前支持基于以下两个库编写策略
 
