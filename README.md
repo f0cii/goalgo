@@ -15,9 +15,9 @@ bitmex-api https://github.com/frankrap/bitmex-api
 
 欢迎交流，欲使用此系统，请自行登录以下官网注册账号:
 
-https://quant.coinrust.com (演示站点)
+https://www.coinrust.com
 
-如有问题，请联系 QQ: 529808348
+如有问题，请联系加QQ群: 932289088
 
 1.简单的基于 GoEx 策略脚本:
 
