@@ -23,9 +23,9 @@ func (s *BitMEXRStrategy) Setup(params []goalgo.ExchangeParams) error {
 		var ex *bitmex.BitMEX
 		switch p.Name {
 		case "bitmex":
-			ex = bitmex.New(bitmex.HostReal, p.AccessKey, p.SecretKey)
+			ex = bitmex.New(nil, bitmex.HostReal, p.AccessKey, p.SecretKey, false)
 		case "bitmex_test":
-			ex = bitmex.New(bitmex.HostTestnet, p.AccessKey, p.SecretKey)
+			ex = bitmex.New(nil, bitmex.HostTestnet, p.AccessKey, p.SecretKey, false)
 		default:
 			log.Errorf("交易所设置错误 %v", p.Name)
 		}

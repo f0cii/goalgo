@@ -5,8 +5,8 @@ import (
 
 	"github.com/frankrap/goalgo"
 
-	"github.com/nntaoli-project/GoEx"
-	"github.com/nntaoli-project/GoEx/builder"
+	"github.com/nntaoli-project/goex"
+	"github.com/nntaoli-project/goex/builder"
 )
 
 var (
